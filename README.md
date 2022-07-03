@@ -8,7 +8,11 @@
 # TEST
 
 ```sh
-1) Crie um projeto com Spring Initializr incluindo Spring Boot Dev Tools, Lombok, Spring Web, Thymeleaf, Spring Data JPA, PostgreSQL Driver e Spring Validator. Crie a classe do modelo conforme o tema escolhido, lembre-se que você precisa adicionar pelo menos 7 atributos (ID, Deleted, ImageUri). Adicione as restrições (validações) do modelo. (0,5 ponto)
+1) Crie um projeto com Spring Initializr incluindo Spring Boot Dev Tools, Lombok,
+ Spring Web, Thymeleaf, Spring Data JPA, PostgreSQL Driver e Spring Validator. 
+ Crie a classe do modelo conforme o tema escolhido, lembre-se que você precisa 
+ adicionar pelo menos 7 atributos (ID, Deleted, ImageUri). Adicione as 
+ restrições (validações) do modelo. (0,5 ponto)
 ```
 
 ```sh
