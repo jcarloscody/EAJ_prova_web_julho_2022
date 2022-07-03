@@ -24,7 +24,7 @@ aplicação os usuários poderão assumir 2 papeis (roles) “ROLE_ADMIN” e �
 ```sh
 3) Prepare seus templates Thymeleaf para uso de bootstrap. Simplifique suas páginas utilizando fragments para
  separar, no mínimo, as partes de cabeçalho, principal e rodapé. A sugestão é o uso do template HTML 
- disponível no [link](https://startbootstrap.com/template/shop-homepage) (1,0 ponto)
+ disponível no (link)[https://startbootstrap.com/template/shop-homepage] (1,0 ponto)
 
 ```
 
