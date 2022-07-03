@@ -3,8 +3,6 @@
 ## Equipe:
 - Gustavo Maciel
 - Josué Carlos
-- [Assista ao Vídeo](youtube.com.br)
-
 
 # TEST
 
