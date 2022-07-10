@@ -128,8 +128,8 @@ public class CamisaController {
 
     @GetMapping("/addItemCarrinho")
     public void doAdicionarItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        var idJogo = 2;
-        var jogo = service.findById((long) idJogo);
+        var id = 2;
+        var camisa = service.findById((long) id);
         Cookie carrinhoCompras = new Cookie("carrinhoCompras", "");
         carrinhoCompras.setMaxAge(60 * 60 * 24);
         Cookie[] requestCookies = request.getCookies();
@@ -141,14 +141,14 @@ public class CamisaController {
                 break;
             }
         }
-        Camisa camisa = null;
+        Camisa camisas = null;
         if (camisa != null){
-            camisa = camisa;
+            camisas = camisa;
             if (achouCarrinho == true){
                 String value = carrinhoCompras.getValue();
-                carrinhoCompras.setValue(value + camisa.getId() + "|");
+                carrinhoCompras.setValue(value + camisas.getId() + "|");
             }else{
-                carrinhoCompras.setValue(camisa.getId() + "|");
+                carrinhoCompras.setValue(camisas.getId() + "|");
             }
         }else {
             response.addCookie(carrinhoCompras);
