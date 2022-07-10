@@ -169,14 +169,14 @@ public class CamisaController {
         }
         Camisa camisa = null;
         var i = 0;
-        ArrayList<Camisa> lista_jogos = new ArrayList();
+        ArrayList<Camisa> lista_camisas = new ArrayList();
         if(achouCarrinho == true) {
             StringTokenizer tokenizer = new StringTokenizer(carrinhoCompras.getValue(), "|");
             while (tokenizer.hasMoreTokens()) {
                 camisa = service.findById((long) Integer.parseInt(tokenizer.nextToken()));
-                lista_jogos.add(camisa);
+                lista_camisas.add(camisa);
             }
-            model.addAttribute("jogos", lista_jogos);
+            model.addAttribute("jogos", lista_camisas);
             return "vercarrinho";
 
         } else {
