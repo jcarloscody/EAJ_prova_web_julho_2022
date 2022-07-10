@@ -1,4 +1,4 @@
-package com.example.computadores.domain;
+package com.example.camisa.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

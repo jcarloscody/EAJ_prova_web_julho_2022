@@ -1,6 +1,6 @@
-package com.example.computadores.service;
+package com.example.camisa.service;
 
-import com.example.computadores.repository.UsuarioRepository;
+import com.example.camisa.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 @Service

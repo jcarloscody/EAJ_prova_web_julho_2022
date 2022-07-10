@@ -1,8 +1,8 @@
-package com.example.computadores.controller;
+package com.example.camisa.controller;
 
-import com.example.computadores.domain.Computador;
-import com.example.computadores.service.ComputadorService;
-import com.example.computadores.service.FileStorageService;
+import com.example.camisa.domain.Camisa;
+import com.example.camisa.service.CamisaService;
+import com.example.camisa.service.FileStorageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,12 +17,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-public class ComputadorController {
+public class CamisaController {
 
-    private final ComputadorService service;
+    private final CamisaService service;
     private final FileStorageService fileStorageService;
 
-    public ComputadorController(ComputadorService service, FileStorageService fileStorageService) {
+    public CamisaController(CamisaService service, FileStorageService fileStorageService) {
         this.service = service;
         this.fileStorageService = fileStorageService;
     }
@@ -30,8 +30,8 @@ public class ComputadorController {
     @GetMapping("/")
     public String getComputadorHome(Model model, HttpServletResponse response){
 
-        List<Computador> computador = service.findAll();
-        model.addAttribute("computador", computador);
+        List<Camisa> camisa = service.findAll();
+        model.addAttribute("camisa", camisa);
 
         Cookie cookie = new Cookie("visita","cookie-value");
         cookie.setMaxAge(60*60*24);
@@ -42,8 +42,8 @@ public class ComputadorController {
 
     @GetMapping("/cadastrar")
     public String doCadastrar(Model model){
-        Computador c = new Computador();
-        model.addAttribute("computador", c);
+        Camisa c = new Camisa();
+        model.addAttribute("camisa", c);
 
         return "cadastrar";
 
@@ -52,31 +52,38 @@ public class ComputadorController {
     @GetMapping("editar/{id}")
     public String getEditarComputador(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
 
-        Computador computador = service.findById(id);
-        model.addAttribute("computador", computador);
+        Camisa camisa = service.findById(id);
+        model.addAttribute("camisa", camisa);
 
         redirectAttributes.addAttribute("msg2", "Cadastro atualizado com sucesso");
         return "cadastrar";
     }
 
     @GetMapping("deletar/{id}")
-    public String getDeletarComputador(@ModelAttribute Computador c, Model model, @PathVariable Long id){
+    public String getDeletarComputador(@ModelAttribute Camisa c, Model model, @PathVariable Long id){
         System.out.println(c.getDescricao());
-        Computador computador = service.findById(c.getId());
-        computador.setDescricao(c.getDescricao());
-        computador.setImagem(c.getImagem());
-        computador.setMarca(c.getMarca());
-        computador.setModelo(c.getModelo());
-        computador.setPreco(c.getPreco());
-        computador.setDeletd(false);
-        service.update(computador);
-        List<Computador> computadores = service.findAll();
-        model.addAttribute("computador", computadores);
+
+        Camisa camisa = service.findById(c.getId());
+
+        camisa.setDescricao(c.getDescricao());
+        camisa.setImagem(c.getImagem());
+        camisa.setMarca(c.getMarca());
+        camisa.setModelo(c.getModelo());
+        camisa.setPreco(c.getPreco());
+
+        camisa.setDeletd(false);
+
+        service.update(camisa);
+
+        List<Camisa> camisas = service.findAll();
+
+        model.addAttribute("camisa", camisas);
+
         return "index";
     }
 
     @PostMapping("salvar")
-    public String doSalvaComputador(@ModelAttribute @Valid Computador c, Errors errors,
+    public String doSalvaComputador(@ModelAttribute @Valid Camisa c, Errors errors,
                                     @RequestParam("file") MultipartFile file,
                                     RedirectAttributes redirectAttributes, HttpServletRequest request){
 
@@ -102,8 +109,8 @@ public class ComputadorController {
     @GetMapping("/adicionarCarrinho/{id}")
     public String getAddCarrinho(Model model, @PathVariable Long id){
 
-        Computador computador = service.findById(id);
-        model.addAttribute("computador", computador);
+        Camisa camisa = service.findById(id);
+        model.addAttribute("camisa", camisa);
 
         return "cadastrar";
     }

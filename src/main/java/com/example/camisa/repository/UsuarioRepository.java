@@ -1,6 +1,6 @@
-package com.example.computadores.repository;
+package com.example.camisa.repository;
 
-import com.example.computadores.domain.Usuario;
+import com.example.camisa.domain.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
