@@ -20,7 +20,7 @@ public class CamisaService {
         return repository.save(c);
     }
 
-    public void deleteById(Long id){
+    public void deleteByDeletd(Long id){
         repository.deleteById(id);
     }
 
