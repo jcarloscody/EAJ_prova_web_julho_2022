@@ -26,6 +26,8 @@ public class CamisaController {
     private final CamisaService service;
     private final FileStorageService fileStorageService;
 
+    private static int contador = 0;
+
     public CamisaController(CamisaService service, FileStorageService fileStorageService) {
         this.service = service;
         this.fileStorageService = fileStorageService;
@@ -34,10 +36,23 @@ public class CamisaController {
     @GetMapping("/")
     public String getCamisaHome(Model model, HttpServletResponse response){
 
-        List<Camisa> camisa = service.findAll();
-        model.addAttribute("camisa", camisa);
+       List<Camisa> camisa = service.findAll();
+       List<Camisa> camisasUtil = new ArrayList<>();
 
-        Cookie cookie = new Cookie("visita","cookie-value");
+
+       camisa.forEach(camisa1 -> {
+
+           if (camisa1.getDeletd()){
+               System.out.println("-----" + camisa1.getDeletd());
+              camisasUtil.add(camisa1);
+           }
+       });
+       /* if (camisasUtil.isEmpty()){
+            camisasUtil.add(new Camisa());
+        }*/
+        model.addAttribute("camisa", camisasUtil);
+
+        Cookie cookie = new Cookie("visita","visitou");
         cookie.setMaxAge(60*60*24);
         response.addCookie(cookie);
 
@@ -63,26 +78,20 @@ public class CamisaController {
     }
 
     @GetMapping("deletar/{id}")
-    public String getDeletarCamisa(@ModelAttribute Camisa c, Model model, @PathVariable Long id){
-        System.out.println(c.getDescricao());
+    public String getDeletarCamisa(
+            Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
 
-        Camisa camisa = service.findById(c.getId());
-
-        camisa.setDescricao(c.getDescricao());
-        camisa.setImagem(c.getImagem());
-        camisa.setMarca(c.getMarca());
-        camisa.setModelo(c.getModelo());
-        camisa.setPreco(c.getPreco());
-
+        Camisa camisa = service.findById(id);
         camisa.setDeletd(false);
-
         service.update(camisa);
 
         List<Camisa> camisas = service.findAll();
 
         model.addAttribute("camisa", camisas);
+        redirectAttributes.addAttribute("msg", "Deleted com sucesso");
+        return "redirect:/admin";
 
-        return "index";
+        //return "index";
     }
 
     @PostMapping("salvar")
@@ -90,17 +99,25 @@ public class CamisaController {
                                   @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, HttpServletRequest request){
 
         if (errors.hasErrors()){
-            System.out.println(errors.getAllErrors().stream().toArray());
-            return "produto/cadastrar";
+            redirectAttributes.addAttribute("msg", "Cadastro FRACASSO!");
+            return "redirect:/admin";
         }else{
-            c.setImagem(file.getOriginalFilename());
-            service.update(c);
-            fileStorageService.save(file);
+           try {
+               CamisaController.contador++;
+               c.setDeletd(true);
+               c.setImagem(file.getOriginalFilename()+CamisaController.contador);
+               service.update(c);
+               fileStorageService.save(file);
 
-            redirectAttributes.addAttribute("msg", "Cadastro realizado com sucesso");
-            return "redirect:/";
+               redirectAttributes.addAttribute("msg", "Cadastro realizado com sucesso");
+               return "redirect:/admin";
+           } catch (Exception e){
+               redirectAttributes.addAttribute("msg", "Cadastro FRACASSO!");
+               return "redirect:/admin";
+           }
         }
     }
+
 
 
 
@@ -147,6 +164,32 @@ public class CamisaController {
         }
         response.addCookie(carrinhoCompras);
     }
+    @GetMapping("/admin")
+    public String getCamisaAdmin(Model model, HttpServletResponse response){
+
+        List<Camisa> camisa = service.findAll();
+        model.addAttribute("camisa", camisa);
+        List<Camisa> camisasUtil = new ArrayList<>();
+
+
+        camisa.forEach(camisa1 -> {
+
+            if (camisa1.getDeletd()){
+                System.out.println("-----" + camisa1.getDeletd());
+                camisasUtil.add(camisa1);
+            }
+        });
+        model.addAttribute("camisa", camisasUtil);
+       /* if (camisasUtil.isEmpty()){
+            camisasUtil.add(new Camisa());
+        }*/
+        model.addAttribute("camisa", camisasUtil);
+        Cookie cookie = new Cookie("visita","visitou");
+        cookie.setMaxAge(60*60*24);
+        response.addCookie(cookie);
+
+        return "index";
+    }
 
     @GetMapping("/visualizarCarrinho")
     public String visualizarCarrinho(HttpServletRequest request, Model model) throws ServletException, IOException {
@@ -173,7 +216,7 @@ public class CamisaController {
             return "relacao";
 
         } else {
-            return "redirect:/index";
+            return "index";
         }
     }
 

@@ -24,17 +24,18 @@
 
             <tbody>
                 <tr th:each="c : ${camisa}" th:object="${c}">
-                    <td ><img width="100px" th:src="@{'/images/' + *{imagem}}" alt="imagem"/></td>
-                    <td th:text="*{id}"></td>
-                    <td th:text="*{modelo}"></td>
+                    <td><img width="100px" th:src="@{'/images/' + *{imagem}}" alt="imagem"/></td>
+                    <td  th:text="*{id}"></td>
+                    <td  th:text="*{modelo}"></td>
                     <td th:text="*{marca}"></td>
-                    <td th:text="*{preco}"></td>
-                    <td th:text="*{descricao}"></td>
+                    <td  th:text="*{preco}"></td>
+                    <td  th:text="*{descricao}"></td>
                     <td > <a th:href="@{'/editar/'+ *{id}}">Editar</a> </td>
                     <td > <a th:href="@{'/deletar/'+ *{id}}">Deletar</a></td>
                 </tr>
             </tbody>
 
         </table>
+
     </div>
 </main>
