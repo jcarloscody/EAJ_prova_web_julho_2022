@@ -27,6 +27,6 @@ public class Camisa {
     String preco;
     String imagem;
     String descricao;
-    Boolean deletd;
 
+    Boolean deletd;
 }
