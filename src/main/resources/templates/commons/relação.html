@@ -1,6 +1,6 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:fragment="mainpc(computador)">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:fragment="mainpc(camisa)">
 
-    <h2>Computador</h2>
+    <h2>Camisas e Camisetas</h2>
 
     <div th:if="${#request.getParameter('msg')}" class="alert alert-primary" role="alert">
         <p th:text="${#request.getParameter('msg')}"></p>
@@ -11,7 +11,7 @@
             <thead>
             <tr>
                 <th scope="col">Imagem</th>
-                <th scope="col">#id</th>
+                <th scope="col">Identificação</th>
                 <th scope="col">Modelo</th>
                 <th scope="col">Marca</th>
                 <th scope="col">Preço</th>
@@ -21,7 +21,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="c : ${computador}" th:object="${c}">
+            <tr th:each="c : ${camisa}" th:object="${c}">
                 <td ><img width="100px" th:src="@{'/images/' + *{imagem}}" alt="imagem"/></td>
                 <td th:text="*{id}"></td>
                 <td th:text="*{modelo}"></td>

@@ -1,4 +1,4 @@
-package com.example.computadores.service;
+package com.example.camisa.service;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

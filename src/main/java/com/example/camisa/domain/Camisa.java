@@ -1,6 +1,6 @@
-package com.example.computadores.domain;
+package com.example.camisa.domain;
 
-import com.example.computadores.errorhandling.ApiMenssages;
+import com.example.camisa.errorhandling.ApiMenssages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,13 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Computador {
+public class Camisa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
