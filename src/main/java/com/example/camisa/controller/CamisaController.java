@@ -88,8 +88,7 @@ public class CamisaController {
 
     @PostMapping("salvar")
     public String doSalvaComputador(@ModelAttribute @Valid Camisa c, Errors errors,
-                                    @RequestParam("file") MultipartFile file,
-                                    RedirectAttributes redirectAttributes, HttpServletRequest request){
+                                  @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, HttpServletRequest request){
 
         if (errors.hasErrors()){
             System.out.println(errors.getAllErrors().stream().toArray());
@@ -176,8 +175,8 @@ public class CamisaController {
                 camisa = service.findById((long) Integer.parseInt(tokenizer.nextToken()));
                 lista_camisas.add(camisa);
             }
-            model.addAttribute("jogos", lista_camisas);
-            return "vercarrinho";
+            model.addAttribute("camisa", lista_camisas);
+            return "relacao";
 
         } else {
             return "redirect:/index";
