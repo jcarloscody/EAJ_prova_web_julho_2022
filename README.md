@@ -1,3 +1,4 @@
+
 # Segunda Avaliação de Programação Web - Java - Spring
 
 ## INSTRUÇÕES: 
@@ -105,4 +106,4 @@ possa acessar a página de “/login” “/index”. Apenas um usuário com o p
 acessar as páginas “/admin” “/cadastro” “/salvar” “/editar” e “/deletar”. Apenas um usuário com o papel 
 “ROLE_USER” poderá acessar as páginas “/vercarrinho”, “/adicionarcarrinho”, “/finalizarcompra”.
 Adicione o username do usuário logado no cabeçalho. Adicione um botão para “logout” no cabeçalho.
-(1,0 ponto
+(1,0 ponto)
