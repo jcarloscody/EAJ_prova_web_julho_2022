@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Controller
 public class CamisaController {
@@ -106,6 +110,8 @@ public class CamisaController {
         }
     }
 
+
+
     @GetMapping("/adicionarCarrinho/{id}")
     public String getAddCarrinho(Model model, @PathVariable Long id){
 
@@ -118,5 +124,69 @@ public class CamisaController {
     @GetMapping("/vercarrinho")
     public String getVerCarrinho(Model model){
         return "vercarrinho";
+    }
+
+    @GetMapping("/addItemCarrinho")
+    public void doAdicionarItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        var idJogo = 2;
+        var jogo = service.findById((long) idJogo);
+        Cookie carrinhoCompras = new Cookie("carrinhoCompras", "");
+        carrinhoCompras.setMaxAge(60 * 60 * 24);
+        Cookie[] requestCookies = request.getCookies();
+        boolean achouCarrinho = false;
+        if (requestCookies != null) {
+            for (var c : requestCookies) {
+                achouCarrinho = true;
+                carrinhoCompras = c;
+                break;
+            }
+        }
+        Camisa camisa = null;
+        if (camisa != null){
+            camisa = camisa;
+            if (achouCarrinho == true){
+                String value = carrinhoCompras.getValue();
+                carrinhoCompras.setValue(value + camisa.getId() + "|");
+            }else{
+                carrinhoCompras.setValue(camisa.getId() + "|");
+            }
+        }else {
+            response.addCookie(carrinhoCompras);
+        }
+        response.addCookie(carrinhoCompras);
+    }
+    @GetMapping("/visualizarCarrinho")
+    public String visualizarCarrinho(HttpServletRequest request, Model model) throws ServletException, IOException {
+        Cookie carrinhoCompras = new Cookie("carrinhoCompras", "");
+        Cookie[] requestCookies = request.getCookies();
+        boolean achouCarrinho = false;
+        if (requestCookies != null) {
+            for (var c : requestCookies) {
+                achouCarrinho = true;
+                carrinhoCompras = c;
+                break;
+            }
+        }
+        Camisa camisa = null;
+        var i = 0;
+        ArrayList<Camisa> lista_jogos = new ArrayList();
+        if(achouCarrinho == true) {
+            StringTokenizer tokenizer = new StringTokenizer(carrinhoCompras.getValue(), "|");
+            while (tokenizer.hasMoreTokens()) {
+                camisa = service.findById((long) Integer.parseInt(tokenizer.nextToken()));
+                lista_jogos.add(camisa);
+            }
+            model.addAttribute("jogos", lista_jogos);
+            return "vercarrinho";
+
+        } else {
+            return "redirect:/index";
+        }
+    }
+    @GetMapping("/finalizarCompra")
+    public String finalizarCompra(HttpServletRequest request, HttpServletResponse response){
+        Cookie carrinhoCompras = new Cookie("carrinhoCompras", "");
+        response.addCookie(carrinhoCompras);
+        return "redirect:/index";
     }
 }
