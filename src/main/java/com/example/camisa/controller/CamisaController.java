@@ -32,7 +32,7 @@ public class CamisaController {
     }
 
     @GetMapping("/")
-    public String getComputadorHome(Model model, HttpServletResponse response){
+    public String getCamisaHome(Model model, HttpServletResponse response){
 
         List<Camisa> camisa = service.findAll();
         model.addAttribute("camisa", camisa);
@@ -50,11 +50,10 @@ public class CamisaController {
         model.addAttribute("camisa", c);
 
         return "cadastrar";
-
     }
 
     @GetMapping("editar/{id}")
-    public String getEditarComputador(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
+    public String getEditarCamisa(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes){
 
         Camisa camisa = service.findById(id);
         model.addAttribute("camisa", camisa);
@@ -64,7 +63,7 @@ public class CamisaController {
     }
 
     @GetMapping("deletar/{id}")
-    public String getDeletarComputador(@ModelAttribute Camisa c, Model model, @PathVariable Long id){
+    public String getDeletarCamisa(@ModelAttribute Camisa c, Model model, @PathVariable Long id){
         System.out.println(c.getDescricao());
 
         Camisa camisa = service.findById(c.getId());
@@ -94,12 +93,6 @@ public class CamisaController {
             System.out.println(errors.getAllErrors().stream().toArray());
             return "produto/cadastrar";
         }else{
-            /*
-			System.out.println(file.getOriginalFilename());
-			System.out.println(file.getContentType());
-			System.out.println(file.getSize());
-             */
-
             c.setImagem(file.getOriginalFilename());
             service.update(c);
             fileStorageService.save(file);
@@ -154,6 +147,7 @@ public class CamisaController {
         }
         response.addCookie(carrinhoCompras);
     }
+
     @GetMapping("/visualizarCarrinho")
     public String visualizarCarrinho(HttpServletRequest request, Model model) throws ServletException, IOException {
         Cookie carrinhoCompras = new Cookie("carrinhoCompras", "");
@@ -182,6 +176,7 @@ public class CamisaController {
             return "redirect:/index";
         }
     }
+
     @GetMapping("/finalizarCompra")
     public String finalizarCompra(HttpServletRequest request, HttpServletResponse response){
         Cookie carrinhoCompras = new Cookie("carrinhoCompras", "");
