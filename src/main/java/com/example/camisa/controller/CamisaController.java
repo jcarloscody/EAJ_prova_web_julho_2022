@@ -131,12 +131,12 @@ public class CamisaController {
 
         HttpSession session = request.getSession();
         List<Camisa> carrinho = (List<Camisa>) session.getAttribute("carrinho");
-        Camisa almoco = service.findById(id);
+        Camisa camisa = service.findById(id);
         if(carrinho == null){
             carrinho = new ArrayList<>();
         }
 
-        carrinho.add(almoco);
+        carrinho.add(camisa);
         contCarrinho = carrinho.size();
         session.setAttribute("carrinho", carrinho);
 
