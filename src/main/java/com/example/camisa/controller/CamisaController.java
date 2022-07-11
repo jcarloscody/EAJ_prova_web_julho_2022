@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class CamisaController {
     private final FileStorageService fileStorageService;
 
     private static int contador = 0;
+
+    private int contCarrinho = 0;
+
 
     public CamisaController(CamisaService service, FileStorageService fileStorageService) {
         this.service = service;
@@ -47,9 +51,6 @@ public class CamisaController {
               camisasUtil.add(camisa1);
            }
        });
-       /* if (camisasUtil.isEmpty()){
-            camisasUtil.add(new Camisa());
-        }*/
         model.addAttribute("camisa", camisasUtil);
 
         Cookie cookie = new Cookie("visita","visitou");
@@ -135,34 +136,21 @@ public class CamisaController {
         return "vercarrinho";
     }
 
-    @GetMapping("/addItemCarrinho")
-    public void doAdicionarItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        var id = 2;
-        var camisa = service.findById((long) id);
-        Cookie carrinhoCompras = new Cookie("carrinhoCompras", "");
-        carrinhoCompras.setMaxAge(60 * 60 * 24);
-        Cookie[] requestCookies = request.getCookies();
-        boolean achouCarrinho = false;
-        if (requestCookies != null) {
-            for (var c : requestCookies) {
-                achouCarrinho = true;
-                carrinhoCompras = c;
-                break;
-            }
+    @GetMapping("/adicionarcarrinho/{id}")
+    public String doAdicionarItem(@PathVariable (name = "id") Long id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        List<Camisa> carrinho = (List<Camisa>) session.getAttribute("carrinho");
+        Camisa almoco = service.findById(id);
+        if(carrinho == null){
+            carrinho = new ArrayList<>();
         }
-        Camisa camisas = null;
-        if (camisa != null){
-            camisas = camisa;
-            if (achouCarrinho == true){
-                String value = carrinhoCompras.getValue();
-                carrinhoCompras.setValue(value + camisas.getId() + "|");
-            }else{
-                carrinhoCompras.setValue(camisas.getId() + "|");
-            }
-        }else {
-            response.addCookie(carrinhoCompras);
-        }
-        response.addCookie(carrinhoCompras);
+
+        carrinho.add(almoco);
+        contCarrinho = carrinho.size();
+        session.setAttribute("carrinho", carrinho);
+
+        return "/";
     }
     @GetMapping("/admin")
     public String getCamisaAdmin(Model model, HttpServletResponse response){
