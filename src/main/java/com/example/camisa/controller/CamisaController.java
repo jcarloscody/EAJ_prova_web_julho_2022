@@ -141,9 +141,9 @@ public class CamisaController {
         session.setAttribute("carrinho", carrinho);
 
 
-        List<Camisa> camisa = service.findAll();
+        List<Camisa> camisas = service.findAll();
         List<Camisa> camisasUtil = new ArrayList<>();
-        camisa.forEach(camisa1 -> {
+        camisas.forEach(camisa1 -> {
             if (camisa1.getDeletd()){
                 System.out.println("-----" + camisa1.getDeletd());
                 camisasUtil.add(camisa1);
