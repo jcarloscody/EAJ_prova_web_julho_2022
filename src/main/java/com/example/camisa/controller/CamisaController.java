@@ -105,8 +105,9 @@ public class CamisaController {
         }else{
            try {
                CamisaController.contador++;
+
                c.setDeletd(true);
-               c.setImagem(file.getOriginalFilename()+CamisaController.contador);
+               c.setImagem(file.getOriginalFilename());
                service.update(c);
                fileStorageService.save(file);
 
@@ -120,24 +121,13 @@ public class CamisaController {
     }
 
 
-
-
-    @GetMapping("/adicionarCarrinho/{id}")
-    public String getAddCarrinho(Model model, @PathVariable Long id){
-
-        Camisa camisa = service.findById(id);
-        model.addAttribute("camisa", camisa);
-
-        return "cadastrar";
-    }
-
     @GetMapping("/vercarrinho")
     public String getVerCarrinho(Model model){
         return "vercarrinho";
     }
 
     @GetMapping("/adicionarcarrinho/{id}")
-    public String doAdicionarItem(@PathVariable (name = "id") Long id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String doAdicionarItem(Model model, @PathVariable (name = "id") Long id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
         List<Camisa> carrinho = (List<Camisa>) session.getAttribute("carrinho");
@@ -150,7 +140,19 @@ public class CamisaController {
         contCarrinho = carrinho.size();
         session.setAttribute("carrinho", carrinho);
 
-        return "/";
+
+        List<Camisa> camisa = service.findAll();
+        List<Camisa> camisasUtil = new ArrayList<>();
+        camisa.forEach(camisa1 -> {
+            if (camisa1.getDeletd()){
+                System.out.println("-----" + camisa1.getDeletd());
+                camisasUtil.add(camisa1);
+            }
+        });
+        model.addAttribute("camisa", camisasUtil);
+
+
+        return "index";
     }
     @GetMapping("/admin")
     public String getCamisaAdmin(Model model, HttpServletResponse response){
